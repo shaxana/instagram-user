@@ -1,0 +1,25 @@
+.icons {
+  font-size: 22px;
+  color: black;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.sidebar{
+    width: 390px;
+    display: flex;
+    flex-direction: column;
+    /* overflow-y:auto; */
+    /* overflow-x:hidden; */
+    /* max-height: 100vh; */
+    /* position: absolute; */
+    background-color: white;
+  }
+  .sidebarButton {
+    display: block;
+  }
