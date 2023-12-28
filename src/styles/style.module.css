@@ -23,3 +23,18 @@ header {
   .sidebarButton {
     display: block;
   }
+
+
+  .textField{
+    width: 250px;
+    height: 35px;
+    margin: 10px
+  }
+
+  .textLabel{
+    font-size:20px;
+  }
+
+  .loginFormstyle{
+    margin: 100px;
+  }

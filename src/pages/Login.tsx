@@ -1,103 +1,88 @@
-import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
-import axios from 'axios'
-import { useEffect, useState } from 'react';
-import {useDispatch, useSelector} from "react-redux"
-import { useNavigate } from 'react-router-dom';
-import { login } from '../redux/slices/userSlice';
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import LoginForm from '../components/LoginForm';
+import styles from './../styles/style.module.css'
+function Copyright(props: any) {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
-function Login () {
+// TODO remove, this demo shouldn't need to reset the theme.
+const defaultTheme = createTheme();
 
-  let [users, setUsers] = useState([])
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
- 
-  useEffect(()=>{
-   axios("http://localhost:5000/users").then((res)=>{
-     setUsers(res.data)
-     })
-  },[])
-  
-  // Shape of form values
-  interface FormValues {
-    username: string;
-
-    password: string
-   
-  }
-  
-  interface OtherProps {
-    message: string;
-  }
-  
-  // Aside: You may see InjectedFormikProps<OtherProps, FormValues> instead of what comes below in older code.. InjectedFormikProps was artifact of when Formik only exported a HoC. It is also less flexible as it MUST wrap all props (it passes them through).
-  const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
-    const { touched, errors, isSubmitting, message } = props;
-    return (
-      <Form>
-        <h1>{message}</h1>
-        <label htmlFor="username">username</label> <br />
-        <Field type="username" name="username" />
-        {touched.username && errors.username && <div>{errors.username}</div>}
-  <br />
-  <label htmlFor="password">password</label><br />
-        <Field type="password" name="password" />
-        {touched.password && errors.password && <div>{errors.password}</div>}
-  <br />
-        <button type="submit" >
-          Submit
-        </button>
-      </Form>
-    );
+ function Login() {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
   };
-  
-  
-  // The type of props MyForm receives
-  interface MyFormProps {
-    initialUsername?: string;
-    message: string; // if this passed all the way through you might do this or make a union type
-  }
-  
-  // Wrap our form with the withFormik HoC
-  const MyForm = withFormik<MyFormProps, FormValues>({
-    // Transform outer props into form values
-    mapPropsToValues: props => {
-      return {
-       
-        username: props.initialUsername || '',
-        password: ''
-      };
-    },
-    
-  
-    // Add a custom validation function (this can be async too!)
-    validate: (values: FormValues) => {
-      let errors: FormikErrors<FormValues> = {};
-      // if (!values.email) {
-      //   errors.email = 'Required';
-      // } else if (!isValidEmail(values.email)) {
-      //   errors.email = 'Invalid email address';
-      // }
-      return errors;
-    },
-  
-    handleSubmit: values => {
-      // do submitting things
-      console.log(values);
-     axios.post("http://localhost:5000/login/",values).then((res)=>{
-      console.log(res);
-      dispatch(login(true))
-      navigate("/")
-     })
-    },
-  })(InnerForm);
-  
-  // Use <MyForm /> wherevs
 
   return (
-    <div>
-      <MyForm message="Log In"/>
-    </div>
-  );
-} 
+    <ThemeProvider theme={defaultTheme}>
+      <Grid container component="main" sx={{ height: '100vh' }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: 'url(https://i.pinimg.com/564x/2e/93/10/2e9310dcca7978a72aacd2651c7a9df5.jpg)',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 4, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Log in
+            </Typography>
+          <div className={styles.loginFormstyle}>
 
-export default Login;
+          <LoginForm/>
+          </div>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
+  );
+}
+
+export default Login

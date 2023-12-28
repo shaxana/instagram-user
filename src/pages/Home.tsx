@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux"
 import Login from "./Login"
-import Posts from "../components/Posts"
 import { RootState } from "./../redux/store"
+import Direct from "./Direct"
 
 
 type Props = {}
@@ -13,7 +13,7 @@ const isLogin = useSelector((state:RootState)=> state.users.isLogin)
 
   return (
     
-      isLogin ? <Posts/> : <Login/>
+      isLogin ? <Direct/> : <Login/>
     
     
   )

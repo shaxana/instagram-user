@@ -2,13 +2,13 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface UserState {
-  posts: object [],
+  posts: object[];
   isLogin: boolean
 }
 
 const initialState: UserState = {
-  posts: [{}],
-  isLogin: false
+  posts: [],
+  isLogin: true
 }
 
 export const userSlice = createSlice({
